@@ -1,6 +1,6 @@
 ﻿<Properties StartupItem="CSharpMinifier.Console\CSharpMinifier.Console.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Release" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="CSharpMinifier.Console\Program.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="CSharpMinifier\NamesGenerator.cs">
     <Files>
       <File FileName="c:\Users\rocky\Documents\GitHub\CSharp-Minifier\CSharpMinifier.GUI\frmMain.cs" Line="1" Column="1" />
       <File FileName="CSharpMinifier.GUI\Program.cs" Line="1" Column="1" />
@@ -8,13 +8,15 @@
       <File FileName="CSharpMinifier\MinifyLocalsAstVisitor.cs" Line="1" Column="1" />
       <File FileName="CSharpMinifier.Tests\Samples\Test1.cs" Line="1" Column="1" />
       <File FileName="CSharpMinifier.Tests\MinifierTests.cs" Line="1" Column="1" />
-      <File FileName="CSharpMinifier.Console\Program.cs" Line="72" Column="38" />
+      <File FileName="CSharpMinifier.Console\Program.cs" Line="62" Column="5" />
       <File FileName="CSharpMinifier.GUI\Properties\Resources.resx" Line="1" Column="1" />
       <File FileName="CSharpMinifier.GUI\Properties\AssemblyInfo.cs" Line="1" Column="1" />
       <File FileName="CSharpMinifier.GUI\App.config" Line="1" Column="1" />
       <File FileName="CSharpMinifier.GUI\Properties\Settings.settings" Line="1" Column="1" />
       <File FileName="CSharpMinifier.Console\Properties\AssemblyInfo.cs" Line="1" Column="1" />
       <File FileName="CSharpMinifier\Properties\AssemblyInfo.cs" Line="1" Column="1" />
+      <File FileName="CSharpMinifier\NRefactoryUtils.cs" Line="1" Column="1" />
+      <File FileName="CSharpMinifier\NamesGenerator.cs" Line="1" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

@@ -39,7 +39,8 @@ namespace CSharpMinifier.Console
 				LineLength = lineLength,
 				ToStringMethodsRemoving = Array.IndexOf(args, "--to-string-methods") > 0,
 				PublicCompressing = Array.IndexOf(args, "--public") > 0,
-				EnumToIntConversion = Array.IndexOf(args, "--enum-to-int") > 0
+				EnumToIntConversion = Array.IndexOf(args, "--enum-to-int") > 0,
+				UselessMembersCompressing = Array.IndexOf(args, "--useless-members") > 0
 			};
 
 
@@ -52,24 +53,23 @@ namespace CSharpMinifier.Console
 
 			string code = File.ReadAllText (filename);
 
-			CSharpMinifier.Minifier minifier = new CSharpMinifier.Minifier(minifierOptions);
-			string output = minifier.MinifyFromString(code);
+			CSharpMinifier.Minifier minifier = new CSharpMinifier.Minifier (minifierOptions);
+			string output = minifier.MinifyFromString (code);
 
-			var compileResult = CSharpMinifier.CompileUtils.Compile(code);
+			if (Array.IndexOf (args, "--skip-compile") > 0) {
+			} else {
+				var compileResult = CSharpMinifier.CompileUtils.Compile (code);
 
-			if (!compileResult.Errors.HasErrors)
-			{
-				System.Console.Error.WriteLine ("Compiled successfully!");
-			}
-			else
-			{
-				for (int i = 0; i < compileResult.Errors.Count; i++)
-				{
-					var error = compileResult.Errors [i];
-					System.Console.Error.WriteLine ("Line: " + error.Line + ", Column: " + error.Column + " :: " + error.ErrorText);
+				if (!compileResult.Errors.HasErrors) {
+					System.Console.Error.WriteLine ("Compiled successfully!");
+				} else {
+					for (int i = 0; i < compileResult.Errors.Count; i++) {
+						var error = compileResult.Errors [i];
+						System.Console.Error.WriteLine ("Line: " + error.Line + ", Column: " + error.Column + " :: " + error.ErrorText);
+					}
+
+					System.Console.Error.WriteLine ("Error: Compile failed!  Minified code could still be valid.");
 				}
-
-				System.Console.Error.WriteLine ("Error: Compile failed!  Minified code could still be valid.");
 			}
 
 			System.Console.WriteLine (output);
