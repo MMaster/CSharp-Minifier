@@ -687,7 +687,7 @@ namespace CSharpMinifier
 				{
 					if (line.Length + newString.Length > Options.LineLength)
 					{
-						result.AppendLine(line.ToString());
+						result.Append(line.ToString() + "\n");
 						line.Clear();
 						line.Append(newString.TrimStart());
 					}
@@ -750,30 +750,26 @@ namespace CSharpMinifier
 			if (line.Length != 0)
 				last = line[line.Length - 1];
 
-			if (last == ' ' || last == '\r' || last == '\n' || _prevNode == null || node == null)
-				indent = "";
-			else
-			{
-				var prevComment = _prevNode as Comment;
-				if (prevComment != null)
-				{
-					if (prevComment.CommentType == CommentType.SingleLine || prevComment.CommentType == CommentType.Documentation)
-						indent = Environment.NewLine;
-					else
-						indent = "";
-				}
-				else if (node is PreProcessorDirective || _prevNode is PreProcessorDirective)
-					indent = Environment.NewLine;
-				else
-				{
-					if ((_prevNode is CSharpTokenNode && _prevNode.Role.ToString().All(c => !char.IsLetterOrDigit(c))) ||
-						_prevNode is NewLineNode ||
-						(node is CSharpTokenNode && node.Role.ToString().All(c => !char.IsLetterOrDigit(c))) ||
-						node is NewLineNode ||
-						node is Comment)
-							indent = "";
-				}
-			}
+            if (last == '\r' || last == '\n' || node == null)
+                return "";
+            /*if (node is NewLineNode)
+                return "\n";*/
+
+            if (last == ' ' || _prevNode == null)
+                indent = "";
+            else {
+                var prevComment = _prevNode as Comment;
+                if (prevComment != null) {
+                        indent = "";
+                }
+                else {
+                    if ((_prevNode is CSharpTokenNode && _prevNode.Role.ToString().All(c => !char.IsLetterOrDigit(c))) ||
+                        _prevNode is NewLineNode ||
+                        (node is CSharpTokenNode && node.Role.ToString().All(c => !char.IsLetterOrDigit(c))) ||
+                        node is Comment)
+                        indent = "";
+                }
+            }
 
 			return indent;
 		}
