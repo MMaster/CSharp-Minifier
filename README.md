@@ -31,9 +31,11 @@ Modified for use with Space Engineers in-game scripts.
     * Insert classes from file in place of comment ```// MINIFY INSERT: filename.cs```
     * Disable minify for area of code:
 
-```// NO MINIFY {
+```
+// NO MINIFY {
 code();
-// NO MINIFY }```
+// NO MINIFY }
+```
 
   * Unicode input
   * Output to script.cs file in unicode
