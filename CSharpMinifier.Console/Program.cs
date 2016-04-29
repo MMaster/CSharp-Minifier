@@ -14,7 +14,7 @@ namespace CSharpMinifier.Console
 				
 			int lineLength = 80;
 
-			if (Array.IndexOf(args, "--line-length") > 0) {
+			if (Array.IndexOf(args, "--line-length") >= 0) {
 				
 				int index = Array.IndexOf(args, "--line-length") + 1;
 				if (index < args.Length) {					
@@ -27,20 +27,20 @@ namespace CSharpMinifier.Console
 
 			var minifierOptions = new CSharpMinifier.MinifierOptions
 			{
-				LocalVarsCompressing = Array.IndexOf(args, "--locals") > 0,
-				MembersCompressing = Array.IndexOf(args, "--members") > 0,
-				TypesCompressing = Array.IndexOf(args, "--types") > 0,
-				SpacesRemoving = Array.IndexOf(args, "--spaces") > 0,
-				RegionsRemoving = Array.IndexOf(args, "--regions") > 0,
-				CommentsRemoving = Array.IndexOf(args, "--comments") > 0,
-				MiscCompressing = Array.IndexOf(args, "--misc") > 0,
-				ConsoleApp = Array.IndexOf(args, "--console") > 0,
-				NamespacesRemoving = Array.IndexOf(args, "--namespaces") > 0,
+				LocalVarsCompressing = Array.IndexOf(args, "--locals") >= 0,
+				MembersCompressing = Array.IndexOf(args, "--members") >= 0,
+				TypesCompressing = Array.IndexOf(args, "--types") >= 0,
+				SpacesRemoving = Array.IndexOf(args, "--spaces") >= 0,
+				RegionsRemoving = Array.IndexOf(args, "--regions") >= 0,
+				CommentsRemoving = Array.IndexOf(args, "--comments") >= 0,
+				MiscCompressing = Array.IndexOf(args, "--misc") >= 0,
+				ConsoleApp = Array.IndexOf(args, "--console") >= 0,
+				NamespacesRemoving = Array.IndexOf(args, "--namespaces") >= 0,
 				LineLength = lineLength,
-				ToStringMethodsRemoving = Array.IndexOf(args, "--to-string-methods") > 0,
-				PublicCompressing = Array.IndexOf(args, "--public") > 0,
-				EnumToIntConversion = Array.IndexOf(args, "--enum-to-int") > 0,
-				UselessMembersCompressing = Array.IndexOf(args, "--useless-members") > 0
+				ToStringMethodsRemoving = Array.IndexOf(args, "--to-string-methods") >= 0,
+				PublicCompressing = Array.IndexOf(args, "--public") >= 0,
+				EnumToIntConversion = Array.IndexOf(args, "--enum-to-int") >= 0,
+				UselessMembersCompressing = Array.IndexOf(args, "--useless-members") >= 0
 			};
 
 
@@ -56,7 +56,7 @@ namespace CSharpMinifier.Console
 			CSharpMinifier.Minifier minifier = new CSharpMinifier.Minifier (minifierOptions);
 			string output = minifier.MinifyFromString (code);
 
-			if (Array.IndexOf (args, "--skip-compile") > 0) {
+			if (Array.IndexOf (args, "--skip-compile") >= 0) {
 			} else {
 				var compileResult = CSharpMinifier.CompileUtils.Compile (code);
 
