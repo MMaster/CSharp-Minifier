@@ -32,7 +32,9 @@ Modified for use with Space Engineers in-game scripts.
     * Disable minify for area of code:
 
 ```// NO MINIFY {
+
 code();
+
 // NO MINIFY }```
 
   * Unicode input
