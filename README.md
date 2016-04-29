@@ -24,3 +24,15 @@ Implemented features:
 
 Tests and GUI application are included. 
  
+Modified for use with Space Engineers in-game scripts. 
+* Console program includes following features:
+  * Ability to modify behavior using comments in code
+    * Define ignored symbols ```// NO MINIFY SYMBOLS: symbol1 symbol2 symbol2```
+    * Insert classes from file in place of comment ```// MINIFY INSERT: filename.cs```
+    * Disable minify for area of code:
+       ```// NO MINIFY {```
+      ```code();```
+      ```// NO MINIFY }```
+  * Unicode input
+  * Output to script.cs file in unicode
+
