@@ -31,7 +31,7 @@ namespace CSharpMinifier
 
 		public Dictionary<string, string> Generate(List<NameNode> idNameNodes, IEnumerable<string> excludedNames)
 		{
-			Generator.Reset();
+			//Generator.Reset();
 
 			int varCount = idNameNodes.Count;
 			string[] newNames = new string[varCount];

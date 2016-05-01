@@ -309,11 +309,12 @@ namespace CSharpMinifier
 				{
 					if (Options.MiscCompressing && children is BlockStatement && children.Role.ToString() != "Body")
 					{
+                        // MM FIXME: This doesn't work well with if (a) { if (b) something(); } else { somethingElse(); }
 						// if (a) { b; } => if (a) b;
 						var childrenCount = children.Children.Count(c => !(c is NewLineNode));
-						if (childrenCount == 3)
+						/*if (childrenCount == 3)
 							children.ReplaceWith(children.Children.Skip(1).FirstOrDefault(c => !(c is NewLineNode)));
-						else if (childrenCount < 3)
+						else */if (childrenCount < 3)
 							children.Remove();
 					}
 					else if (Options.MiscCompressing && children is BinaryOperatorExpression)
@@ -391,14 +392,14 @@ namespace CSharpMinifier
 		#endregion
 
 		#region Identifiers Compressing
-
-		private void CompressLocals()
+        Substitutor substitutor = new Substitutor(new MinIdGenerator());
+        private void CompressLocals()
 		{
 			var localsVisitor = new MinifyLocalsAstVisitor(IgnoredIdentifiers);
 			CompileAndAcceptVisitor(localsVisitor);
-			var substitutor = new Substitutor(new MinIdGenerator());
 			var ignoredNames = new List<string>(IgnoredIdentifiers);
 			ignoredNames.AddRange(localsVisitor.NotLocalsIdNames);
+            
 			var substituton = substitutor.Generate(localsVisitor.MethodVars, ignoredNames.ToArray());
 
 			var astSubstitution = new Dictionary<string, List<Tuple<string, List<AstNode>>>>();
@@ -418,10 +419,9 @@ namespace CSharpMinifier
 		{
 			var membersVisitor = new MinifyMembersAstVisitor(IgnoredIdentifiers, Options.ConsoleApp, Options.PublicCompressing, Options.ToStringMethodsRemoving);
 			CompileAndAcceptVisitor(membersVisitor);
-			var substitutor = new Substitutor(new MinIdGenerator());
 			var ignoredNames = new List<string>(IgnoredIdentifiers);
 			ignoredNames.AddRange(membersVisitor.NotMembersIdNames);
-			var substituton = substitutor.Generate(membersVisitor.TypesMembers, ignoredNames.ToArray());
+            var substituton = substitutor.Generate(membersVisitor.TypesMembers, ignoredNames.ToArray());
 
 			var astSubstitution = new Dictionary<string, List<Tuple<string, List<AstNode>>>>();
 			foreach (var typeMembers in membersVisitor.TypesMembers)
@@ -440,10 +440,9 @@ namespace CSharpMinifier
 		{
 			var typesVisitor = new MinifyTypesAstVisitor(IgnoredIdentifiers, Options.PublicCompressing);
 			CompileAndAcceptVisitor(typesVisitor);
-			var substitutor = new Substitutor(new MinIdGenerator());
 			var ignoredNames = new List<string>(IgnoredIdentifiers);
 			ignoredNames.AddRange(typesVisitor.NotTypesIdNames);
-			var substitution = substitutor.Generate(typesVisitor.Types, ignoredNames.ToArray());
+            var substitution = substitutor.Generate(typesVisitor.Types, ignoredNames.ToArray());
 
 			var astSubstitution = new List<Tuple<string, List<AstNode>>>();
 			foreach (var type in typesVisitor.Types)
@@ -594,43 +593,39 @@ namespace CSharpMinifier
 				((ParameterDeclaration)node).Name = newName;
 			else if (node is VariableInitializer)
 				((VariableInitializer)node).Name = newName;
-
 			else if (node is VariableInitializer)
 				((VariableInitializer)node).Name = newName;
-			else if (node is MethodDeclaration)
-				((MethodDeclaration)node).Name = newName;
-			else if (node is PropertyDeclaration)
-				((PropertyDeclaration)node).Name = newName;
-			else if (node is IndexerDeclaration)
-				((IndexerDeclaration)node).Name = newName;
-			else if (node is OperatorDeclaration)
-				((OperatorDeclaration)node).Name = newName;
-			else if (node is MemberReferenceExpression)
-				((MemberReferenceExpression)node).MemberName = newName;
-			else if (node is IdentifierExpression)
-				((IdentifierExpression)node).Identifier = newName;
-			else if (node is InvocationExpression)
-			{
-				var invExpression = (InvocationExpression)node;
-				if (invExpression.Target is IdentifierExpression)
-					((IdentifierExpression)invExpression.Target).Identifier = newName;
-				else if (invExpression.Target is MemberReferenceExpression)
-					((MemberReferenceExpression)invExpression.Target).MemberName = newName;
-				else
-				{
-				}
-			}
-			else if (node is NamedExpression)
-				((NamedExpression)node).Name = newName;
-			else if (node is TypeDeclaration)
-				((TypeDeclaration)node).Name = newName;
-			else if (node is SimpleType)
-				((SimpleType)node).Identifier = newName;
-			else if (node is EnumMemberDeclaration)
-				((EnumMemberDeclaration)node).Name = newName;
-			else
-			{
-			}
+            else if (node is MethodDeclaration)
+                ((MethodDeclaration)node).Name = newName;
+            else if (node is PropertyDeclaration)
+                ((PropertyDeclaration)node).Name = newName;
+            else if (node is IndexerDeclaration)
+                ((IndexerDeclaration)node).Name = newName;
+            else if (node is OperatorDeclaration)
+                ((OperatorDeclaration)node).Name = newName;
+            else if (node is MemberReferenceExpression)
+                ((MemberReferenceExpression)node).MemberName = newName;
+            else if (node is IdentifierExpression)
+                ((IdentifierExpression)node).Identifier = newName;
+            else if (node is InvocationExpression) {
+                var invExpression = (InvocationExpression)node;
+                if (invExpression.Target is IdentifierExpression)
+                    ((IdentifierExpression)invExpression.Target).Identifier = newName;
+                else if (invExpression.Target is MemberReferenceExpression)
+                    ((MemberReferenceExpression)invExpression.Target).MemberName = newName;
+                else {
+                }
+            }
+            else if (node is NamedExpression)
+                ((NamedExpression)node).Name = newName;
+            else if (node is TypeDeclaration)
+                ((TypeDeclaration)node).Name = newName;
+            else if (node is SimpleType)
+                ((SimpleType)node).Identifier = newName;
+            else if (node is EnumMemberDeclaration)
+                ((EnumMemberDeclaration)node).Name = newName;
+            else {
+            }
 		}
 
 		private void UpdateSyntaxTree()
